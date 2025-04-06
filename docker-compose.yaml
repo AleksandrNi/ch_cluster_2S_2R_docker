@@ -86,7 +86,7 @@ services:
     volumes:
      - ${PWD}/fs/volumes/clickhouse-keeper-01/etc/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
     ports:
-        - "19181:9181"
+      - "19234:9234"
     networks:
       ch_replicated:
         ipv4_address: 10.0.7.10
@@ -99,7 +99,7 @@ services:
     volumes:
      - ${PWD}/fs/volumes/clickhouse-keeper-02/etc/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
     ports:
-        - "19182:9181"
+        - "19235:9234"
     networks:
       ch_replicated:
         ipv4_address: 10.0.7.11
@@ -112,7 +112,7 @@ services:
     volumes:
      - ${PWD}/fs/volumes/clickhouse-keeper-03/etc/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
     ports:
-        - "19183:9181"
+        - "19236:9234"
     networks:
       ch_replicated:
         ipv4_address: 10.0.7.12

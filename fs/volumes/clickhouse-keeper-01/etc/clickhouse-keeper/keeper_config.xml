@@ -6,7 +6,7 @@
         <size>1000M</size>
         <count>3</count>
     </logger>
-    <listen_host>::</listen_host>
+    <listen_host>0.0.0.0</listen_host>
     <keeper_server>
         <tcp_port>9181</tcp_port>
         <server_id>1</server_id>
@@ -21,17 +21,17 @@
                 <server>
                    <id>1</id>
        	           <hostname>clickhouse-keeper-01</hostname>
-                   <port>9444</port>
+                   <port>9234</port>
                 </server>
                 <server>
                    <id>2</id>
                    <hostname>clickhouse-keeper-02</hostname>
-                   <port>9444</port>
+                   <port>9234</port>
                 </server>
                 <server>
                    <id>3</id>
                    <hostname>clickhouse-keeper-03</hostname>
-                   <port>9444</port>
+                   <port>9234</port>
                 </server>                
            </raft_configuration>
     </keeper_server>
