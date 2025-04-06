@@ -1,0 +1,126 @@
+version: '3'
+services:
+  clickhouse-01:
+    image: "clickhouse/clickhouse-server:${CHVER:-latest}"
+    # user: "101:101"
+    container_name: clickhouse-01
+    hostname: clickhouse-01
+    # COPY ALL FILES IN DIR (config, macros, ...)
+    volumes:
+      - ${PWD}/fs/volumes/clickhouse-01/etc/clickhouse-server/config.d:/etc/clickhouse-server/config.d
+      - ${PWD}/fs/volumes/clickhouse-01/etc/clickhouse-server/users.d:/etc/clickhouse-server/users.d
+    # ports:
+    #   - "18123:8123"
+    #   - "19000:9000"
+    networks:
+      ch_replicated:
+        ipv4_address: 10.0.7.1
+
+    depends_on:
+      - clickhouse-keeper-01
+      - clickhouse-keeper-02
+      - clickhouse-keeper-03
+
+  clickhouse-02:
+    image: "clickhouse/clickhouse-server:${CHVER:-latest}"
+    # user: "101:101"
+    container_name: clickhouse-02
+    hostname: clickhouse-02
+    volumes:
+      - ${PWD}/fs/volumes/clickhouse-02/etc/clickhouse-server/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
+      - ${PWD}/fs/volumes/clickhouse-02/etc/clickhouse-server/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml
+    # ports:
+    #   - "18124:8123"
+    #   - "19001:9000"
+    depends_on:
+      - clickhouse-keeper-01
+      - clickhouse-keeper-02
+      - clickhouse-keeper-03
+    networks:
+      ch_replicated:
+        ipv4_address: 10.0.7.2
+
+  clickhouse-03:
+    image: "clickhouse/clickhouse-server:${CHVER:-latest}"
+    user: "101:101"
+    container_name: clickhouse-03
+    hostname: clickhouse-03
+    volumes:
+      - ${PWD}/fs/volumes/clickhouse-03/etc/clickhouse-server/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
+      - ${PWD}/fs/volumes/clickhouse-03/etc/clickhouse-server/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml
+    # ports:
+    #   - "18125:8123"
+    #   - "19002:9000"
+    depends_on:
+      - clickhouse-keeper-01
+      - clickhouse-keeper-02
+      - clickhouse-keeper-03
+    networks:
+      ch_replicated:
+        ipv4_address: 10.0.7.3
+
+  clickhouse-04:
+    image: "clickhouse/clickhouse-server:${CHVER:-latest}"
+    # user: "101:101"
+    container_name: clickhouse-04
+    hostname: clickhouse-04
+    volumes:
+      - ${PWD}/fs/volumes/clickhouse-04/etc/clickhouse-server/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
+      - ${PWD}/fs/volumes/clickhouse-04/etc/clickhouse-server/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml
+    # ports:
+    #   - "18126:8123"
+    #   - "19003:9000"
+    depends_on:
+      - clickhouse-keeper-01
+      - clickhouse-keeper-02
+      - clickhouse-keeper-03
+    networks:
+      ch_replicated:
+        ipv4_address: 10.0.7.4
+
+  clickhouse-keeper-01:
+    image: "clickhouse/clickhouse-keeper:${CHKVER:-latest-alpine}"
+    # user: "101:101"
+    container_name: clickhouse-keeper-01
+    hostname: clickhouse-keeper-01
+    volumes:
+     - ${PWD}/fs/volumes/clickhouse-keeper-01/etc/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
+    ports:
+        - "19181:9181"
+    networks:
+      ch_replicated:
+        ipv4_address: 10.0.7.10
+
+  clickhouse-keeper-02:
+    image: "clickhouse/clickhouse-keeper:${CHKVER:-latest-alpine}"
+    # user: "101:101"
+    container_name: clickhouse-keeper-02
+    hostname: clickhouse-keeper-02
+    volumes:
+     - ${PWD}/fs/volumes/clickhouse-keeper-02/etc/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
+    ports:
+        - "19182:9181"
+    networks:
+      ch_replicated:
+        ipv4_address: 10.0.7.11
+
+  clickhouse-keeper-03:
+    image: "clickhouse/clickhouse-keeper:${CHKVER:-latest-alpine}"
+    # user: "101:101"
+    container_name: clickhouse-keeper-03
+    hostname: clickhouse-keeper-03
+    volumes:
+     - ${PWD}/fs/volumes/clickhouse-keeper-03/etc/clickhouse-keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
+    ports:
+        - "19183:9181"
+    networks:
+      ch_replicated:
+        ipv4_address: 10.0.7.12
+
+networks:
+  ch_replicated:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.7.0/24
+          gateway: 10.0.7.254

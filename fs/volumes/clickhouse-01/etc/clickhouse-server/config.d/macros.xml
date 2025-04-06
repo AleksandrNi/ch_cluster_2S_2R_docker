@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<!-- macros.xml -->
+<clickhouse>
+    <macros>
+        <shard>01</shard>
+        <replica>01</replica>
+        <cluster>cluster_2S_2R</cluster>
+        <server_id>12345</server_id>
+        <server_name>host11.server.com</server_name>
+    </macros>
+</clickhouse>
+

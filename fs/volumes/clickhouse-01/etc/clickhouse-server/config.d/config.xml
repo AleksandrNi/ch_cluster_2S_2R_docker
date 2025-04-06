@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!-- config.xml -->
+<clickhouse replace="true">
+    <display_name>cluster_2S_2R node 1</display_name>
+    <http_port>8123</http_port>
+    <tcp_port>9000</tcp_port>
+    <user_directories>
+        <users_xml>
+            <path>users.xml</path>
+        </users_xml>
+        <local_directory>
+            <path>/var/lib/clickhouse/access/</path>
+        </local_directory>
+    </user_directories>
+</clickhouse>
